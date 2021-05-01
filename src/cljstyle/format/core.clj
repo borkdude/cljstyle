@@ -105,7 +105,7 @@
 (defn reformat-form
   "Apply formatting rules to the given form."
   [form rules-config]
-  (let [durations (java.util.TreeMap.)]
+  (let [durations (transient {})]
     (-> form
         (apply-walk-rules
           [ws/remove-surrounding
@@ -130,7 +130,7 @@
            ws/remove-trailing]
           rules-config
           durations)
-        (vary-meta assoc ::durations (into {} durations)))))
+        (vary-meta assoc ::durations (into {} (persistent! durations))))))
 
 
 (defn reformat-string*

@@ -4,7 +4,7 @@
     [cljstyle.format.zloc :as zl]
     [rewrite-clj.node :as n]
     [rewrite-clj.zip :as z]
-    [rewrite-clj.zip.whitespace :as ws]))
+    ))
 
 
 ;; ## Rule: Surrounding Whitespace
@@ -80,7 +80,7 @@
 
 (defn- rightmost?
   [zloc]
-  (nil? (ws/skip z/right* ws/whitespace? (z/right* zloc))))
+  (nil? (z/skip z/right* z/whitespace? (z/right* zloc))))
 
 
 (defn- final?

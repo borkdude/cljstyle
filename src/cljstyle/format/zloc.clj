@@ -2,11 +2,10 @@
   "Common utility functions for using rewrite-clj zippers and editing forms."
   (:refer-clojure :exclude [keyword? string? reader-conditional?])
   (:require
+    [clojure.main :refer [demunge]]
     [clojure.string :as str]
     [rewrite-clj.node :as n]
-    [rewrite-clj.zip :as z])
-  (:import
-    rewrite_clj.node.stringz.StringNode))
+    [rewrite-clj.zip :as z]))
 
 
 (defn zstr
@@ -30,7 +29,7 @@
 (defn string?
   "True if the node at this location is a string."
   [zloc]
-  (instance? StringNode (z/node zloc)))
+  (boolean (:lines (z/node zloc))))
 
 
 (defn keyword?
@@ -271,7 +270,7 @@
 (defn- format-error
   "Construct an exception representing a formatting error caused by the function `f`."
   [problem f zloc cause]
-  (let [fn-name (clojure.lang.Compiler/demunge (.getName (class f)))
+  (let [fn-name (demunge (.getName (class f)))
         [line col] (z/position zloc)
         form (z/string zloc)]
     (ex-info (format "Formatter %s at position %d:%d while calling %s"

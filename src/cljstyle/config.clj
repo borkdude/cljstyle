@@ -272,7 +272,7 @@
   ;; NOTE: this can't be `clojure.edn/read-string` because we need to support
   ;; patterns and metadata, which are not part of the EDN standard. Reader
   ;; evaluation is disabled here as a security precaution.
-  (binding [*read-eval* false]
+  (binding [#_#_*read-eval* false]
     (read-string (slurp source))))
 
 
@@ -558,7 +558,7 @@
                  raw-config)]
     (when-not (s/valid? ::config config)
       (throw (ex-info (str "Invalid configuration loaded from file: " path
-                           "\n" (s/explain-str ::config config))
+                           "\n" #_(s/explain-str ::config config))
                       {:type ::invalid
                        :path path})))
     (vary-meta config assoc ::paths [path])))
